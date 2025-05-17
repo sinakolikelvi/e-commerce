@@ -1,3 +1,3 @@
 # e-commerce
 Spring boot application for e-commerce
-New app
+New app and new features!
