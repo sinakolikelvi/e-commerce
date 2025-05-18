@@ -3,6 +3,7 @@ package com.e_commerce.Entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -29,12 +30,12 @@ public class Product {
     private Integer price;
 
     @Column(name = "stock_quantity")
-    @NotBlank(message = "Stock Quantity is required!")
+    @NotNull(message = "Stock Quantity is required!")
     @Min(0)
     private Integer stockQuantity;
 
     @JoinColumn(name = "category_id",nullable = false)
-    @NotBlank(message = "Category is required!")
+    @NotNull(message = "Category is required!")
     @ManyToOne(fetch = FetchType.LAZY)
     private Category category;
 

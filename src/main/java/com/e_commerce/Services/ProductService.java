@@ -22,29 +22,43 @@ public class ProductService {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    public void createProduct(ProductDto productDto){
+    public Product createProduct(ProductDto productDto){
         Product product = modelMapper.map(productDto, Product.class);
         product.setId(null);
         product.setCategory(new Category(productDto.getCategoryId()));
-        productRepository.save(product);
+        return productRepository.save(product);
     }
-    public void updateProduct(ProductDto productDto){
+    public Product updateProduct(ProductDto productDto){
         Product product = modelMapper.map(productDto,Product.class);
         product.setCategory(new Category(productDto.getCategoryId()));
-        productRepository.save(product);
+        return productRepository.save(product);
     }
 
     public List<Product> getAllProducts(){
         return productRepository.findAll();
     }
-    public List<Category> getAllCategories(){
-        return categoryRepository.findAll();
-    }
+
     public Product getProductById(Long id){
         Optional<Product> productOptional = productRepository.findById(id);
         return productOptional.orElseThrow(()-> new EntityNotFoundException("Product not found."));
     }
+
+    public List<Product> getAllProductsByCategoryId(Long id){
+        return productRepository.findProductByCategoryId(id);
+    }
+
+    public List<Product> getAllProductsByStockQuantity(Integer stockQuantity){
+        return productRepository.findProductByStockQuantity(stockQuantity);
+    }
+
     public void deleteProductById(Long id){
-        productRepository.deleteById(id);
+         productRepository.deleteById(id);
+    }
+
+    public List<Product> getLowerStockthan(Integer quantity){
+        return productRepository.findByStockQuantityLessThan(quantity);
+    }
+    public List<Product> getHigherStockthan(Integer quantity){
+        return productRepository.findByStockQuantityGreaterThan(quantity);
     }
 }

@@ -20,17 +20,39 @@ public class ProductController {
         return productService.getAllProducts();
     }
     @GetMapping("/{id}")
-    public void getProductById(@PathVariable Long id){
-        productService.getProductById(id);
+    public Product getProductById(@PathVariable Long id){
+        return productService.getProductById(id);
+    }
+    @GetMapping("/category/{categoryId}")
+    public List<Product> getAllProductsByCategoryId(@PathVariable Long categoryId){
+        return productService.getAllProductsByCategoryId(categoryId);
+    }
+    @GetMapping("/stock/{stockQuantity}")
+    public List<Product> getAllProductByStockQuantity(@PathVariable Integer stockQuantity){
+        return productService.getAllProductsByStockQuantity(stockQuantity);
+    }
+
+    @GetMapping("/stock/lower-than-{quantity}")
+    public List<Product> getLowerStockthan(@PathVariable Integer quantity){
+        return productService.getLowerStockthan(quantity);
+    }
+    @GetMapping("/stock/higher-than-{quantity}")
+    public List<Product> getHigherStockthan(@PathVariable Integer quantity){
+        return productService.getHigherStockthan(quantity);
     }
 
     @PostMapping("/add")
-    public void create(@RequestBody ProductDto productDto){
-        productService.createProduct(productDto);
+    public Product create(@RequestBody ProductDto productDto){
+         return productService.createProduct(productDto);
     }
 
     @PostMapping("/update")
-    public void update(@RequestBody ProductDto productDto){
-        productService.updateProduct(productDto);
+    public Product update(@RequestBody ProductDto productDto){
+        return productService.updateProduct(productDto);
+    }
+
+    @PostMapping("/delete/{id}")
+    public void delete(@PathVariable Long id){
+        productService.deleteProductById(id);
     }
 }
