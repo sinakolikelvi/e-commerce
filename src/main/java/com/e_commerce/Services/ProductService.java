@@ -8,8 +8,11 @@ import com.e_commerce.Repository.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +31,21 @@ public class ProductService {
         product.setCategory(new Category(productDto.getCategoryId()));
         return productRepository.save(product);
     }
+
+    public List<Product> createMiltipleProducts(List<ProductDto> productDtoList){
+
+        List<Product> productList = new ArrayList<>();
+
+        for (ProductDto productDto:productDtoList){
+            Product product = modelMapper.map(productDto,Product.class);
+            product.setId(null);
+            product.setCategory(new Category(productDto.getCategoryId()));
+            productList.add(product);
+        }
+        productRepository.saveAll(productList);
+        return productList;
+    }
+
     public Product updateProduct(ProductDto productDto){
         Product product = modelMapper.map(productDto,Product.class);
         product.setCategory(new Category(productDto.getCategoryId()));
@@ -60,5 +78,9 @@ public class ProductService {
     }
     public List<Product> getHigherStockthan(Integer quantity){
         return productRepository.findByStockQuantityGreaterThan(quantity);
+    }
+
+    public Page<Product> getProductsPaginated(Pageable pageable) {
+        return productRepository.findAll(pageable);
     }
 }

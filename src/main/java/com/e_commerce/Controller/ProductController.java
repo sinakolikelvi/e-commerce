@@ -4,6 +4,9 @@ import com.e_commerce.Dto.ProductDto;
 import com.e_commerce.Entity.Product;
 import com.e_commerce.Services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,10 +18,11 @@ public class ProductController {
     @Autowired
     ProductService productService;
 
-    @GetMapping
+    @GetMapping("/all")
     public List<Product> getAllProducts(){
         return productService.getAllProducts();
     }
+
     @GetMapping("/{id}")
     public Product getProductById(@PathVariable Long id){
         return productService.getProductById(id);
@@ -46,6 +50,11 @@ public class ProductController {
          return productService.createProduct(productDto);
     }
 
+    @PostMapping("/add-multiple")
+    public List<Product> createMultiple(@RequestBody List<ProductDto> productDtoList){
+        return productService.createMiltipleProducts(productDtoList);
+    }
+
     @PostMapping("/update")
     public Product update(@RequestBody ProductDto productDto){
         return productService.updateProduct(productDto);
@@ -54,5 +63,11 @@ public class ProductController {
     @PostMapping("/delete/{id}")
     public void delete(@PathVariable Long id){
         productService.deleteProductById(id);
+    }
+
+    @GetMapping
+    public Page<Product> getProductsPaginated(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return productService.getProductsPaginated(pageable);
     }
 }
