@@ -31,6 +31,7 @@ public class Category {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+
     public Category(Long id) {
         this.id = id;
     }

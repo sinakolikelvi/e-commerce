@@ -37,11 +37,11 @@ public class ProductController {
     }
 
     @GetMapping("/stock/lower-than-{quantity}")
-    public List<Product> getLowerStockthan(@PathVariable Integer quantity){
+    public List<Product> getLowerStockThan(@PathVariable Integer quantity){
         return productService.getLowerStockthan(quantity);
     }
     @GetMapping("/stock/higher-than-{quantity}")
-    public List<Product> getHigherStockthan(@PathVariable Integer quantity){
+    public List<Product> getHigherStockThan(@PathVariable Integer quantity){
         return productService.getHigherStockthan(quantity);
     }
 
